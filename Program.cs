@@ -1,7 +1,4 @@
-﻿
-
-
-while (true)
+﻿while (true)
 {
     ShowMenu();
     string? response = Console.ReadLine()?.Trim().ToLower();
@@ -30,27 +27,17 @@ static void ShowMenu()
     Console.WriteLine("Press 4 for Division");
     Console.WriteLine("Press 5 for Power");
     Console.WriteLine("Press 6 for Square Root");
-    Console.WriteLine("Press 7 for Percentage");
+    Console.WriteLine("Press 7 for Percentage, Percentage (X% of Y)");
 
 }
 
 static void RunCalculation(int option)
 {
 
-    if (option >= 5)
-    {
-        Console.WriteLine("Power and stuff");
-    }
+    if (option == 6)
+        OneNumberCalc();
     else
-    {
         TwoNumberCalc(option);
-
-    }
-
-}
-
-static void OneNumberCalc(int input)
-{
 
 }
 
@@ -58,13 +45,42 @@ static void PrintResult(double result)
 {
     Console.WriteLine($"The answer is {result}");
 }
+
+static void OneNumberCalc()
+{
+    double a = ReadNumber("Input number: ");
+
+    if (a < 0)
+    {
+        Console.WriteLine("Can't take the square root of a negative number.");
+        return;
+    }
+
+    double result = Root(a);
+
+    PrintResult(result);
+}
+
+
 static void TwoNumberCalc(int choice)
 {
-
-    double a = ReadNumber("Input first number: ");
-
-
-    double b = ReadNumber("Input second number: ");
+    double a = 0;
+    double b = 0;
+    if (choice == 5)
+    {
+        a = ReadNumber("First number: ");
+        b = ReadNumber("Exponent: ");
+    }
+    else if (choice == 7)
+    {
+        a = ReadNumber("How much percent?: ");
+        b = ReadNumber("Of number?: ");
+    }
+    else
+    {
+        a = ReadNumber("Input first number: ");
+        b = ReadNumber("Input second number: ");
+    }
 
     if (choice == 4 && b == 0)
     {
@@ -78,6 +94,8 @@ static void TwoNumberCalc(int choice)
         2 => Subtract(a, b),
         3 => Multiply(a, b),
         4 => Divide(a, b),
+        5 => Power(a, b),
+        7 => Percentage(a, b),
         _ => throw new ArgumentOutOfRangeException(nameof(choice))
     };
 
@@ -101,16 +119,6 @@ static double ReadNumber(string prompt)
 
 
 
-
-
-static double Root(int a)
-{
-
-    return Math.Sqrt(a);
-
-}
-
-
 static double Add(double a, double b)
 {
     return a + b;
@@ -132,4 +140,21 @@ static double Divide(double a, double b)
 {
 
     return a / b;
+}
+
+static double Root(double a)
+{
+
+    return Math.Sqrt(a);
+
+}
+
+static double Power(double a, double b)
+{
+    return Math.Pow(a, b);
+}
+
+static double Percentage(double percent, double of)
+{
+    return percent / 100 * of;
 }
